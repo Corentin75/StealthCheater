@@ -1,23 +1,28 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class TeacherDetection : MonoBehaviour
 {
     [Header("Detection Settings")]
-    public Transform player;        // Assign the player here
-    public float viewDistance = 8f; // Distance at which the teacher can see
-    public float viewAngle = 60f;   // Field of view (in degrees)
+    public Transform player;
+    public float viewDistance = 8f;
+    public float viewAngle = 60f;
 
     [Header("Chase Settings")]
-    public float chaseSpeed = 6f;    // speed when chasing
-    public float catchDistance = 1f; // distance to "catch" the player
+    public float chaseSpeed = 6f;
+    public float catchDistance = 1f;
 
     [Header("Layer Mask")]
-    public LayerMask obstacleMask;  // Layers that block line of sight (desks, walls)
+    public LayerMask obstacleMask;
 
     private NavMeshAgent agent;
     private bool playerDetected = false;
+    private bool gameOverTriggered = false;
+
+    [Header("Debug Vision")]
+    public bool showVisionGizmos = true;
+    public Color visionColor = new Color(1f, 0f, 0f, 0.2f);
+
 
     void Awake()
     {
@@ -26,6 +31,11 @@ public class TeacherDetection : MonoBehaviour
 
     void Update()
     {
+        // si la partie est finie, le prof s'arrête
+        if (GameManager.Instance.currentState == GameState.Win ||
+            GameManager.Instance.currentState == GameState.Spotted_GameOver)
+            return;
+
         if (!playerDetected)
         {
             DetectPlayer();
@@ -39,30 +49,36 @@ public class TeacherDetection : MonoBehaviour
 
     void DetectPlayer()
     {
-        if (player == null) return;
+        if (player == null || gameOverTriggered)
+            return;
 
         Vector3 directionToPlayer = player.position - transform.position;
         float distanceToPlayer = directionToPlayer.magnitude;
 
-        if (distanceToPlayer > viewDistance) return;
+        if (distanceToPlayer > viewDistance)
+            return;
 
         float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-        if (angleToPlayer > viewAngle / 2) return;
+        if (angleToPlayer > viewAngle / 2f)
+            return;
 
-        if (Physics.Raycast(transform.position + Vector3.up, directionToPlayer.normalized, out RaycastHit hit, viewDistance))
+        // raycast avec obstacle mask
+        if (Physics.Raycast(
+            transform.position + Vector3.up,
+            directionToPlayer.normalized,
+            out RaycastHit hit,
+            viewDistance,
+            ~obstacleMask))
         {
             if (hit.transform == player)
             {
-                playerDetected = true;
-                Debug.Log("Player spotted! Chasing...");
+                TriggerGameOver();
             }
         }
     }
 
     void ChasePlayer()
     {
-        if (player == null) return;
-
         agent.speed = chaseSpeed;
         agent.SetDestination(player.position);
     }
@@ -71,8 +87,47 @@ public class TeacherDetection : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.position) < catchDistance)
         {
-            Debug.Log("Player caught! Game Over.");
-            // TODO: Trigger game over logic here
+            TriggerGameOver();
+        }
+    }
+
+    void TriggerGameOver()
+    {
+        if (gameOverTriggered)
+            return;
+
+        gameOverTriggered = true;
+        playerDetected = true;
+
+        Debug.Log("RIP, player spotted, game over!");
+        GameManager.Instance.SetState(GameState.Spotted_GameOver);
+    }
+
+    // pour voir la zone de détection du prof dans la Scene
+    void OnDrawGizmosSelected()
+    {
+        if (!showVisionGizmos)
+            return;
+
+        Gizmos.color = visionColor;
+
+        Vector3 origin = transform.position + Vector3.up;
+
+        // view distance
+        Gizmos.DrawWireSphere(origin, viewDistance);
+
+        //view angle lines
+        Vector3 leftBoundary = Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward;
+        Vector3 rightBoundary = Quaternion.Euler(0, viewAngle / 2f, 0) * transform.forward;
+
+        Gizmos.DrawLine(origin, origin + leftBoundary * viewDistance);
+        Gizmos.DrawLine(origin, origin + rightBoundary * viewDistance);
+
+        // direction to player
+        if (player != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(origin, player.position);
         }
     }
 }

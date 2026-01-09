@@ -6,12 +6,14 @@ public class TeacherPatrol : MonoBehaviour
     public Transform[] patrolPoints;
     private int currentPointIndex = 0;
     private NavMeshAgent agent;
+    private Animator animator;
 
     public float waitTimeAtPoint = 2f;
     private float waitTimer = 0f;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
         if (patrolPoints.Length > 0)
@@ -40,5 +42,15 @@ public class TeacherPatrol : MonoBehaviour
                 waitTimer = 0f;
             }
         }
+
+        UpdateAnimation();
+    }
+
+    void UpdateAnimation()
+    {
+        float speed = agent.velocity.magnitude;
+        if (speed < 1f) speed = 0f;
+
+        animator.SetBool("isWalking", speed > 0f);
     }
 }

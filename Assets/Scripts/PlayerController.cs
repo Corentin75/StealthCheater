@@ -36,9 +36,6 @@ public class PlayerController : MonoBehaviour
         lookAction.action.Enable();
         sprintAction.action.Enable();
         jumpAction.action.Enable();
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     void OnDisable()

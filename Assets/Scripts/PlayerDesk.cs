@@ -11,8 +11,10 @@ public class PlayerDesk : MonoBehaviour
 
         if (playerCopy.hasCopied)
         {
-            Debug.Log("GG, you win!");
-            GameManager.Instance.SetState(GameState.Win);
+            Debug.Log("game over: win");
+
+            // Notify GameManager instead of UIManager
+            GameManager.Instance.GameOver(true); // true = win
         }
     }
 }

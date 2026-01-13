@@ -49,7 +49,7 @@ public class PlayerCopy : MonoBehaviour
         isCopying = true;
         copyStartPosition = transform.position;
 
-        GameManager.Instance.SetState(GameState.Copying);
+        GameManager.Instance.StartCopying();
         Debug.Log("Copy started");
 
         float timer = 0f;
@@ -59,19 +59,23 @@ public class PlayerCopy : MonoBehaviour
             if (Vector3.Distance(transform.position, copyStartPosition) > movementTolerance)
             {
                 Debug.Log("Copy interrupted (movement)");
-                GameManager.Instance.SetState(GameState.Playing);
+
+                GameManager.Instance.InterruptCopy();
                 isCopying = false;
                 yield break;
             }
 
             timer += Time.deltaTime;
+
+            GameManager.Instance.UpdateCopyProgress(timer / copyDuration);
+
             yield return null;
         }
 
         Debug.Log("Copy completed");
         hasCopied = true;
 
-        GameManager.Instance.SetState(GameState.Playing);
+        GameManager.Instance.CompleteCopy();
         isCopying = false;
     }
 }

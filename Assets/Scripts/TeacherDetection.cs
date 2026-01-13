@@ -33,7 +33,7 @@ public class TeacherDetection : MonoBehaviour
     {
         // si la partie est finie, le prof s'arrête
         if (GameManager.Instance.currentState == GameState.Win ||
-            GameManager.Instance.currentState == GameState.Spotted_GameOver)
+            GameManager.Instance.currentState == GameState.GameOver)
             return;
 
         if (!playerDetected)
@@ -99,8 +99,9 @@ public class TeacherDetection : MonoBehaviour
         gameOverTriggered = true;
         playerDetected = true;
 
-        Debug.Log("RIP, player spotted, game over!");
-        GameManager.Instance.SetState(GameState.Spotted_GameOver);
+        Debug.Log("game over: lose");
+
+        GameManager.Instance.GameOver(false);
     }
 
     // pour voir la zone de détection du prof dans la Scene

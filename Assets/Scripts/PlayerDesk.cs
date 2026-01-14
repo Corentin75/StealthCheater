@@ -9,12 +9,11 @@ public class PlayerDesk : MonoBehaviour
         if (playerCopy == null)
             return;
 
-        if (playerCopy.hasCopied)
+        // win si les 2 copies ont été faites
+        if (GameManager.Instance.CopiesDone >= 2)
         {
             Debug.Log("game over: win");
-
-            // Notify GameManager instead of UIManager
-            GameManager.Instance.GameOver(true); // true = win
+            GameManager.Instance.GameOver(true);
         }
     }
 }

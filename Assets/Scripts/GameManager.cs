@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour
     [Header("Input")]
     [SerializeField] private InputActionReference pauseAction;
 
+    public int CopiesDone { get; private set; } = 0;
+
+    [SerializeField] private AnswersSheetUI answersSheetUI;
+
     private void OnEnable()
     {
         pauseAction.action.Enable();
@@ -137,5 +141,14 @@ public class GameManager : MonoBehaviour
     {
         currentState = GameState.Playing;
         ui.UpdateCopyProgress(0f);
+    }
+
+    public void RegisterCopy()
+    {
+        CopiesDone++;
+
+        CopiesDone = Mathf.Clamp(CopiesDone, 0, 2);
+
+        answersSheetUI.UpdateSheet(CopiesDone);
     }
 }

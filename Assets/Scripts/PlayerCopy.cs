@@ -11,9 +11,9 @@ public class PlayerCopy : MonoBehaviour
     [SerializeField] private float copyDuration = 3f;
     [SerializeField] private float movementTolerance = 0.05f;
 
-    private bool canCopy = false;
-    private bool isCopying = false;
-    public bool hasCopied { get; private set; } = false;
+    private bool canCopy;
+    private bool isCopying;
+
     private CopyDesk currentDesk;
     private Vector3 copyStartPosition;
 
@@ -40,6 +40,9 @@ public class PlayerCopy : MonoBehaviour
 
     public void SetCanCopy(bool value, CopyDesk desk)
     {
+        if (value && desk != null && !desk.CanCopy)
+            return;
+
         canCopy = value;
         currentDesk = desk;
     }
@@ -50,7 +53,6 @@ public class PlayerCopy : MonoBehaviour
         copyStartPosition = transform.position;
 
         GameManager.Instance.StartCopying();
-        Debug.Log("Copy started");
 
         float timer = 0f;
 
@@ -58,24 +60,22 @@ public class PlayerCopy : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, copyStartPosition) > movementTolerance)
             {
-                Debug.Log("Copy interrupted (movement)");
-
                 GameManager.Instance.InterruptCopy();
                 isCopying = false;
                 yield break;
             }
 
             timer += Time.deltaTime;
-
             GameManager.Instance.UpdateCopyProgress(timer / copyDuration);
 
             yield return null;
         }
 
-        Debug.Log("Copy completed");
-        hasCopied = true;
+        // Copie good
+        currentDesk.MarkCopied();
+        GameManager.Instance.CompleteCopy();   // UI / state
+        GameManager.Instance.RegisterCopy();   // +1 copie -> maj de l'img
 
-        GameManager.Instance.CompleteCopy();
         isCopying = false;
     }
 }

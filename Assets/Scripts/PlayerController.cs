@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +27,9 @@ public class PlayerController : MonoBehaviour
     private float xRotation;
     private float verticalVelocity;
 
+    private Animator animator;
+
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -46,10 +51,16 @@ public class PlayerController : MonoBehaviour
         jumpAction.action.Disable();
     }
 
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     void Update()
     {
         HandleMovement();
         HandleLook();
+        UpdateAnimation();
     }
 
     void HandleMovement()
@@ -94,5 +105,13 @@ public class PlayerController : MonoBehaviour
 
         cameraPivot.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
+    }
+
+    void UpdateAnimation()
+    {
+        Vector2 input = moveAction.action.ReadValue<Vector2>();
+
+        bool isRunning = input.sqrMagnitude > 0.01f;
+        animator.SetBool("isRunning", isRunning);
     }
 }

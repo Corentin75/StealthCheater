@@ -6283,15 +6283,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e92909c80b7e50c4ea8e99500d043b36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelGenerator
+  rows: 5
+  columns: 3
+  spacingX: 10
+  spacingZ: 10
   normalDeskPrefab: {fileID: 5280169097862592474, guid: a1b1c55c652063b4292955416ea09366, type: 3}
   copyDeskPrefab: {fileID: 1742492984688504438, guid: 5f1f010011b1cb9499d8420068a25b6c, type: 3}
   playerDeskPrefab: {fileID: 3922107458695570340, guid: 1b21ea583fc222548845bfc77e2a849f, type: 3}
   playerPrefab: {fileID: 7890995218538810429, guid: c1597ea6e2a6f7b4aa11d5b7f4d33105, type: 3}
   teacherPrefab: {fileID: 6473088581230192692, guid: 3291dd08b214157468467762c3dd60fb, type: 3}
-  rows: 5
-  columns: 3
-  spacingX: 10
-  spacingZ: 10
+  obstaclePrefabs:
+  - {fileID: 9084491755783084422, guid: 3791aff757da5d84ba55328f9912a93b, type: 3}
+  - {fileID: 4458639102040291127, guid: a1d2926663174ae418d971e8b09a9560, type: 3}
+  - {fileID: 2682217416284848753, guid: 1f54f4aa7cfbafc49a1fdfea441c8a5b, type: 3}
+  minObstacles: 4
+  maxObstacles: 8
+  obstacleOffsetRange: 3
+  minObstacleDistance: 2
   navMeshSurface: {fileID: 7381803089866126927}
   tempCam: {fileID: 2007216246}
 --- !u!1 &2146452877

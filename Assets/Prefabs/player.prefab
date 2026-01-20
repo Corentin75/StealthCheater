@@ -570,7 +570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCopy
   copyAction: {fileID: 8508842076918211395, guid: 5e2a9b546e81bd64392dc25503ec2a2b, type: 3}
-  copyDuration: 5
+  copyDuration: 1
   movementTolerance: 0.05
 --- !u!137 &8998535326144755114 stripped
 SkinnedMeshRenderer:

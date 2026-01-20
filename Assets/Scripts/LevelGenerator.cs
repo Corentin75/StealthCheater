@@ -23,9 +23,20 @@ public class LevelGenerator : MonoBehaviour
     private List<GameObject> allDesks = new List<GameObject>();
     private GameObject playerInstance;
     private GameObject teacherInstance;
+    private Transform levelRoot;
+    [SerializeField] private GameObject tempCam;
 
-    void Start()
+
+    private void Awake()
     {
+        levelRoot = transform;
+    }
+
+    public void GenerateLevel()
+    {
+        ClearLevel();
+        if (tempCam != null) Destroy(tempCam);
+
         Vector2Int playerDeskPos;
         List<Vector2Int> copyDeskPositions;
         GenerateRandomDeskPositions(out playerDeskPos, out copyDeskPositions);
@@ -33,7 +44,17 @@ public class LevelGenerator : MonoBehaviour
         GenerateDesks(playerDeskPos, copyDeskPositions);
         BuildNavMesh();
         SpawnPlayer(playerDeskPos);
-        SpawnTeacher();        
+        SpawnTeacher();
+    }
+
+    void ClearLevel()
+    {
+        foreach (Transform child in levelRoot)
+        {
+            Destroy(child.gameObject);
+        }
+
+        allDesks.Clear();
     }
 
     #region Random Desk Positions
@@ -77,7 +98,7 @@ public class LevelGenerator : MonoBehaviour
                 else if (copyDeskPositions.Exists(pos => pos.x == row && pos.y == col))
                     prefabToUse = copyDeskPrefab;
 
-                GameObject desk = Instantiate(prefabToUse, position, rotation, transform);
+                GameObject desk = Instantiate(prefabToUse, position, rotation, levelRoot);
                 allDesks.Add(desk);
             }
         }
@@ -90,13 +111,13 @@ public class LevelGenerator : MonoBehaviour
         int index = playerDeskPos.x * columns + playerDeskPos.y;
         Transform desk = allDesks[index].transform;
         Vector3 spawnPos = desk.position + new Vector3(-2f, 0f, -2f);
-        playerInstance = Instantiate(playerPrefab, spawnPos, Quaternion.Euler(0f, 0f, 0f));
+        playerInstance = Instantiate(playerPrefab, spawnPos, Quaternion.Euler(0f, 0f, 0f), levelRoot);
     }
 
     private void SpawnTeacher()
     {
         Vector3 spawnPos = new Vector3(15f, 0f, 55f); // devant le tableau
-        teacherInstance = Instantiate(teacherPrefab, spawnPos, Quaternion.Euler(0f, 180f, 0f));
+        teacherInstance = Instantiate(teacherPrefab, spawnPos, Quaternion.Euler(0f, 180f, 0f), levelRoot);
 
         // on assigne le player à la détection du prof au runtime
         TeacherDetection teacherDetection = teacherInstance.GetComponent<TeacherDetection>();

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -12,22 +13,30 @@ public enum GameState
     GameOver
 }
 
+[System.Serializable]
+public class LevelData
+{
+    // Buffs du nouveau cours
+    [Header("Player Fatigue")]
+    public float playerSpeedMultiplier;
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
     public GameState currentState;
+    public int CopiesDone { get; private set; } = 0;
+    public LevelData[] levels;
+    public int CurrentLevelIndex { get; private set; }
 
     [Header("UI References")]
     public UIManager ui;
+    [SerializeField] private AnswersSheetUI answersSheetUI;
 
     [Header("Input")]
     [SerializeField] private InputActionReference pauseAction;
 
-    public int CopiesDone { get; private set; } = 0;
-
-    [SerializeField] private AnswersSheetUI answersSheetUI;
-
+    
     private void OnEnable()
     {
         pauseAction.action.Enable();
@@ -65,11 +74,37 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        ui.ShowStartMenu(false);
+        CurrentLevelIndex = 0;
+        StartLevel(CurrentLevelIndex);
+    }
+
+    public void StartLevel(int levelIndex)
+    {
         currentState = GameState.Playing;
         Time.timeScale = 1f;
         SetCursorForMenu(false);
 
-        ui.ShowStartMenu(false);
+        CopiesDone = 0;
+        answersSheetUI.UpdateSheet(0);
+
+        LevelGenerator generator = FindFirstObjectByType<LevelGenerator>();
+        if (generator != null)
+        {
+            generator.GenerateLevel();
+        }
+        else
+        {
+            Debug.LogError("No LevelGenerator found in scene nooo");
+        }
+
+        LevelData data = levels[levelIndex];
+        PlayerController player = FindFirstObjectByType<PlayerController>();
+        if (player != null)
+        {
+            player.ApplySpeedMultiplier(data.playerSpeedMultiplier);
+        }
+
         ui.ShowHUD(true);
     }
 
@@ -95,11 +130,18 @@ public class GameManager : MonoBehaviour
 
     public void GameOver(bool win)
     {
-        currentState = win ? GameState.Win : GameState.GameOver;
         Time.timeScale = 0f;
         SetCursorForMenu(true);
+
+        if (win)
+        {
+            StartCoroutine(NextLevelRoutine());
+            return;
+        }
+
+        currentState = GameState.GameOver;
         ui.ShowHUD(false);
-        ui.ShowEndScreen(true, win ? "GG, you win!" : "RIP, you got caught!");
+        ui.ShowEndScreen(true, "RIP, you got caught!");
     }
 
     public void RestartGame()
@@ -150,5 +192,25 @@ public class GameManager : MonoBehaviour
         CopiesDone = Mathf.Clamp(CopiesDone, 0, 2);
 
         answersSheetUI.UpdateSheet(CopiesDone);
+    }
+
+    private IEnumerator NextLevelRoutine()
+    {
+        currentState = GameState.Win;
+        ui.ShowHUD(false);
+        ui.ShowEndScreen(true, "Niveau terminé !");
+
+        yield return new WaitForSecondsRealtime(2f);
+
+        CurrentLevelIndex++;
+
+        if (CurrentLevelIndex >= levels.Length)
+        {
+            ui.ShowEndScreen(true, "GG! You win!");
+            yield break;
+        }
+
+        ui.ShowEndScreen(false);
+        StartLevel(CurrentLevelIndex);
     }
 }

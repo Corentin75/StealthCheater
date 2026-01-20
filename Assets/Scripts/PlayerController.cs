@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     public float moveSpeed = 4f;
+    private float baseMoveSpeed;
     public float sprintMultiplier = 2f;
     public float jumpForce = 1.8f;
     public float gravity = -9.81f;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         controller = GetComponent<CharacterController>();
+        baseMoveSpeed = moveSpeed;
     }
 
     void OnEnable()
@@ -113,5 +115,10 @@ public class PlayerController : MonoBehaviour
 
         bool isRunning = input.sqrMagnitude > 0.01f;
         animator.SetBool("isRunning", isRunning);
+    }
+
+    public void ApplySpeedMultiplier(float multiplier)
+    {
+        moveSpeed = baseMoveSpeed * multiplier;
     }
 }

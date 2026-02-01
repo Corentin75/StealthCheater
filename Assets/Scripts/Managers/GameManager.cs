@@ -227,7 +227,7 @@ public class GameManager : MonoBehaviour
         // last level transition
         if (nextLevelIndex >= levels.Length)
         {
-            ui.ShowEndGameScreen(true, "Game Over!", "Congrats! You win!");
+            ui.ShowEndGameScreen(true, "Game Over!", "Thanks for playing! You win!");
             yield break;
         }
 

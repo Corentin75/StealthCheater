@@ -25,18 +25,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Sprint",
+                    "name": "Pause",
                     "type": "Button",
-                    "id": "76e4b447-3531-49f1-81f4-4d1b669e92db",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "1df35440-583f-4fc1-b439-30d9de032da9",
+                    "id": "df0152b8-48e0-447f-9e88-fecdca7682bc",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -46,15 +37,6 @@
                     "name": "Copy",
                     "type": "Button",
                     "id": "860bbfec-b926-43db-9daa-7b6bd9b68857",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "df0152b8-48e0-447f-9e88-fecdca7682bc",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -128,6 +110,17 @@
                 },
                 {
                     "name": "",
+                    "id": "837b3885-2279-4643-95e8-0296ff16bb0f",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fb8b0cd8-a0b7-46bb-8473-e6772233ea1f",
                     "path": "<Mouse>/delta",
                     "interactions": "",
@@ -139,23 +132,12 @@
                 },
                 {
                     "name": "",
-                    "id": "9124ea50-55c7-4cbc-b630-a826fa91380f",
-                    "path": "<Keyboard>/leftShift",
+                    "id": "a949432e-5680-4eff-ae9e-d3ef6b317cc6",
+                    "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Sprint",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "281bdf77-3cd1-47a4-926c-d92f1f92829b",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -163,6 +145,17 @@
                     "name": "",
                     "id": "6e86369a-cb1f-4052-b602-dcab7bc12650",
                     "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Copy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8f5bc9eb-3afd-42d8-82d9-2b5ceae35772",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -183,8 +176,30 @@
                 },
                 {
                     "name": "",
+                    "id": "cb74c08e-c72e-4262-8a38-0d21f6273f2b",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "591c1884-dedb-4116-97f8-51647ccbddbf",
                     "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "434fdf7f-2fdb-4a20-8224-81c9cb499d87",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

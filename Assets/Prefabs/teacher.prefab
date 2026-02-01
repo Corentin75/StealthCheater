@@ -134,10 +134,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeacherAI
   patrolPoints:
-  - {fileID: 5500136036681179254, guid: 0be15dbd1c8d961479e9db0ffb779323, type: 3}
-  - {fileID: 6117949229216449801, guid: 2953171d9e3ae0b49a7e949433f50ac0, type: 3}
-  - {fileID: 2977752957140832800, guid: 271a21e8afec04e4a82b66d4988371b2, type: 3}
-  - {fileID: 4625823268970065305, guid: 0e9a8c91c334dd945b018cb53fe3a740, type: 3}
+  - {fileID: 3753038768273416689, guid: 3e8b3b557d039094ab076becb0cdf643, type: 3}
+  - {fileID: 5363896383431928580, guid: f33327b85e6bbde409673a19fa352777, type: 3}
+  - {fileID: 1017577591099958208, guid: a5d44b04ce71ccf4e898245dd226b05a, type: 3}
+  - {fileID: 4944226722816347636, guid: 972b40a5f0863a04fb40e0839adb320b, type: 3}
   waitTimeAtPoint: 2
 --- !u!114 &2712978486063992227
 MonoBehaviour:
@@ -151,13 +151,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a68fe6bd479e24a92aecb1831f3c8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeacherDetection
-  player: {fileID: 7406630262584350343, guid: c1597ea6e2a6f7b4aa11d5b7f4d33105, type: 3}
-  viewDistance: 10
+  player: {fileID: 442618452188601596, guid: 4b4dbe398f663b942904b9cbd958f3a5, type: 3}
+  viewDistance: 15
   viewAngle: 120
-  chaseSpeed: 8
-  catchDistance: 1
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   showVisionGizmos: 1
   visionColor: {r: 1, g: 0, b: 0, a: 0.2}

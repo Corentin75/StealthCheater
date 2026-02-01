@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
 
     private void OnPausePerformed(InputAction.CallbackContext context)
     {
-        if (currentState == GameState.Playing)
+        if (currentState == GameState.Playing || currentState == GameState.Copying)
             PauseGame();
         else if (currentState == GameState.Paused)
             ResumeGame();
@@ -110,8 +110,6 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        if (currentState != GameState.Playing) return;
-
         currentState = GameState.Paused;
         Time.timeScale = 0f;
         SetCursorForMenu(true);
@@ -120,8 +118,6 @@ public class GameManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        if (currentState != GameState.Paused) return;
-
         currentState = GameState.Playing;
         Time.timeScale = 1f;
         SetCursorForMenu(false);

@@ -488,7 +488,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.3
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.1
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
@@ -567,6 +567,8 @@ MonoBehaviour:
   copyAction: {fileID: 8508842076918211395, guid: 5e2a9b546e81bd64392dc25503ec2a2b, type: 3}
   copyDuration: 5
   movementTolerance: 0.05
+  canCopy: 0
+  isCopying: 0
 --- !u!114 &5493252235272845365
 MonoBehaviour:
   m_ObjectHideFlags: 0

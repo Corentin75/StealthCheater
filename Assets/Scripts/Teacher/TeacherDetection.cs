@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class TeacherDetection : MonoBehaviour
 {
@@ -8,16 +7,11 @@ public class TeacherDetection : MonoBehaviour
     public float viewDistance = 8f;
     public float viewAngle = 60f;
 
-    [Header("Layer Mask")]
-    public LayerMask obstacleMask;
-
-    private bool playerDetected = false;
-    private bool gameOverTriggered = false;
-    private PlayerState playerState;
-
     [Header("Debug Vision")]
     public bool showVisionGizmos = true;
     public Color visionColor = new Color(1f, 0f, 0f, 0.2f);
+
+    private PlayerState playerState;
 
 
     void Start()
@@ -27,75 +21,55 @@ public class TeacherDetection : MonoBehaviour
 
     void Update()
     {
-        // if the game has ended, we stop detecting the player
-        if (GameManager.Instance.currentState == GameState.Win ||
-            GameManager.Instance.currentState == GameState.GameOver)
+        if (GameManager.Instance.currentState != GameState.Playing
+            && GameManager.Instance.currentState != GameState.Copying)
             return;
 
-        if (!playerDetected)
-            DetectPlayer();
+        DetectPlayer();
     }
 
     void DetectPlayer()
     {
-        if (gameOverTriggered)
+        // player is safe at his own desk
+        if (playerState.isAtDesk)
             return;
 
-        Vector3 directionToPlayer = player.position - transform.position;
-        float distanceToPlayer = directionToPlayer.magnitude;
+        Vector3 origin = transform.position + Vector3.up * transform.localScale.y * 1.5f;
+        Vector3 dir = player.position + Vector3.up * player.transform.localScale.y - origin;
 
-        if (distanceToPlayer > viewDistance)
+        float distance = dir.magnitude;
+        if (distance > viewDistance)
             return;
 
-        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-        if (angleToPlayer > viewAngle / 2f)
+        float angle = Vector3.Angle(transform.forward, dir);
+        if (angle > viewAngle * 0.5f)
             return;
 
-        // raycast to check line of sight
-        if (Physics.Raycast(transform.position + Vector3.up, directionToPlayer.normalized,
-            out RaycastHit hit, viewDistance, ~obstacleMask))
+        if (Physics.Raycast(origin, dir.normalized, out RaycastHit hit, viewDistance))
         {
-            if (hit.transform == player)
-            {
-                // ignores the player if he's sitting at his desk
-                if (playerState.isAtDesk)
-                    return;
-
-                TriggerGameOver();
-            }
+            GameManager.Instance.TriggerLose();
         }
     }
 
-    void TriggerGameOver()
-    {
-        if (gameOverTriggered) return;
-
-        gameOverTriggered = true;
-        playerDetected = true;
-
-        GameManager.Instance.TriggerLose();
-    }
-
-    // draws the teacher vision cone to debug (only in editor)
+    // debug visualisation in the Scene view
     void OnDrawGizmosSelected()
     {
         if (!showVisionGizmos || player == null)
             return;
 
         Gizmos.color = visionColor;
-        Vector3 origin = transform.position + Vector3.up;
 
-        // view distance
+        Vector3 origin = transform.position + Vector3.up * transform.localScale.y * 1.5f;
+
         Gizmos.DrawWireSphere(origin, viewDistance);
 
-        // view angle boundaries
-        Vector3 leftBoundary = Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward;
-        Vector3 rightBoundary = Quaternion.Euler(0, viewAngle / 2f, 0) * transform.forward;
-        Gizmos.DrawLine(origin, origin + leftBoundary * viewDistance);
-        Gizmos.DrawLine(origin, origin + rightBoundary * viewDistance);
+        Vector3 left = Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward;
+        Vector3 right = Quaternion.Euler(0, viewAngle / 2f, 0) * transform.forward;
 
-        // direction to player
+        Gizmos.DrawLine(origin, origin + left * viewDistance);
+        Gizmos.DrawLine(origin, origin + right * viewDistance);
+
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(origin, player.position);
+        Gizmos.DrawLine(origin, player.position + Vector3.up * player.transform.localScale.y);
     }
 }

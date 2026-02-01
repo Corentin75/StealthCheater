@@ -11,8 +11,8 @@ public class PlayerCopy : MonoBehaviour
     [SerializeField] private float copyDuration = 3f;
     [SerializeField] private float movementTolerance = 0.05f;
 
-    private bool canCopy;
-    private bool isCopying;
+    public bool canCopy;
+    public bool isCopying;
 
     private CopyDesk currentDesk;
     private Vector3 copyStartPosition;

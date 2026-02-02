@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5228635888909452963}
   - component: {fileID: 2825895910176260252}
   - component: {fileID: 2068735208328821021}
-  - component: {fileID: 2790673575903274844}
+  - component: {fileID: 6406397009267176056}
   m_Layer: 0
   m_Name: Camera_3P
   m_TagString: MainCamera
@@ -138,7 +138,7 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!114 &2790673575903274844
+--- !u!114 &6406397009267176056
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 7165166752466058969}
   - component: {fileID: 8630259799110622042}
   - component: {fileID: 8136308649166527017}
-  - component: {fileID: 4616626802730707528}
+  - component: {fileID: 6705862018680662117}
   m_Layer: 0
   m_Name: Camera_1P
   m_TagString: MainCamera
@@ -323,7 +323,7 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!114 &4616626802730707528
+--- !u!114 &6705862018680662117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -488,7 +488,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.3
   m_SlopeLimit: 45
-  m_StepOffset: 0.1
+  m_StepOffset: 0.01
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}

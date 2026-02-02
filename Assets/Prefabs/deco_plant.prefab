@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3880652064032821902, guid: 93e95a25893f69d46aba08851115522c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 56655914185045357, guid: 93e95a25893f69d46aba08851115522c, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.5
@@ -66,12 +70,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1929323652270254930, guid: 93e95a25893f69d46aba08851115522c, type: 3}
       propertyPath: m_Name
-      value: nature_deco_plant
+      value: deco_plant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3880652064032821902, guid: 93e95a25893f69d46aba08851115522c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1929323652270254930, guid: 93e95a25893f69d46aba08851115522c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7475161183711415472}
     - targetCorrespondingSourceObject: {fileID: 1929323652270254930, guid: 93e95a25893f69d46aba08851115522c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6799080423314248033}
@@ -81,6 +89,27 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1929323652270254930, guid: 93e95a25893f69d46aba08851115522c, type: 3}
   m_PrefabInstance: {fileID: 2820960909174037605}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &7475161183711415472
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4458639102040291127}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7945495, y: 2, z: 0.7702974}
+  m_Center: {x: -0.037224352, y: 0.1, z: -0.021282941}
 --- !u!208 &6799080423314248033
 NavMeshObstacle:
   m_ObjectHideFlags: 0
